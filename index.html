@@ -44,6 +44,9 @@
     <div id="message-container">
     </div>
 
+    <br>
+    <br>
+    
     <form action="javascript:sendMessage()">
         <div id="chatbox">
             <input type="text" id="textedit" name="message" placeholder="message" autocomplete="off">
@@ -123,6 +126,8 @@
         message.appendChild(text_elem)
 
         document.getElementById("message-container").appendChild(message)
+
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     function userJoined(username) {
