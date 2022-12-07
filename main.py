@@ -5,6 +5,7 @@ import pathlib
 import ssl
 import datetime
 
+# set of all connected clients
 CONNECTIONS = set()
 
 def log(event, time):
@@ -18,10 +19,13 @@ async def handler(websocket):
             data = json.loads(message)
             log(data, datetime.datetime.now())
             websockets.broadcast(CONNECTIONS, json.dumps(data))
+        # wait for the websocket to close
         await websocket.wait_closed()
     finally:
+        # no longer need to broadcast messages to that client
         CONNECTIONS.remove(websocket)
 
+# SSL encryption
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain(
     certfile='/etc/letsencrypt/live/compscichat.tk/fullchain.pem', 
