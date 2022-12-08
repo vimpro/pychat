@@ -31,7 +31,7 @@ async def handler(websocket):
             "type" : "leave",
             "name" : users[websocket]
         }
-        webscokets.broadcast(CONNECTIONS, json.dumps(message))
+        websockets.broadcast(CONNECTIONS, json.dumps(message))
         del users[websocket]
 
 # SSL encryption
