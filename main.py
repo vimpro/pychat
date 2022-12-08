@@ -7,6 +7,7 @@ import datetime
 
 # set of all connected clients
 CONNECTIONS = set()
+users = {}
 
 def log(event, time):
     with open("log.txt", "+a") as myfile:
@@ -17,6 +18,8 @@ async def handler(websocket):
     try:
         async for message in websocket:
             data = json.loads(message)
+            if data["type"] == "join":
+                users[websocket] = data["name"]
             log(data, datetime.datetime.now())
             websockets.broadcast(CONNECTIONS, json.dumps(data))
         # wait for the websocket to close
@@ -24,6 +27,12 @@ async def handler(websocket):
     finally:
         # no longer need to broadcast messages to that client
         CONNECTIONS.remove(websocket)
+        message = {
+            "type" : "leave",
+            "name" : users[websocket]
+        }
+        webscokets.broadcast(CONNECTIONS, json.dumps(message))
+        del users[websocket]
 
 # SSL encryption
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)

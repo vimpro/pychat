@@ -90,6 +90,8 @@
             userJoined(data.name)
         } else if (data.type == "message") {
             addMessage(data.name, data.content)
+        } else if (data.type == "leave") {
+            userLeft(data.name)
         }
     })
 
@@ -140,6 +142,25 @@
         user_elem.textContent = username + " joined the chat!"
 
         message.appendChild(user_elem)
-        document.getElementById("message-container").appendChild(message)
+
+        let container = document.getElementById("message-container")
+
+        container.appendChild(message)
+        container.scrollTop = container.scrollHeight
+    }
+
+    function userLeft(username) {
+        let message = document.createElement("p")
+        message.className = "message"
+
+        let user_elem = document.createElement("strong")
+        user_elem.textContent = username + " left the chat!"
+
+        message.appendChild(user_elem)
+
+        let container = document.getElementById("message-container")
+
+        container.appendChild(message)
+        container.scrollTop = container.scrollHeight
     }
 </script>
