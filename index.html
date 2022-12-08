@@ -126,9 +126,10 @@
         message.appendChild(user_elem)
         message.appendChild(text_elem)
 
-        document.getElementById("message-container").appendChild(message)
+        let container = document.getElementById("message-container")
 
-        window.scrollTo(0, document.body.scrollHeight);
+        container.appendChild(message)
+        container.scrollTop = container.scrollHeight
     }
 
     function userJoined(username) {
